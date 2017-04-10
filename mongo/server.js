@@ -13,6 +13,9 @@ var app = express();
 var databaseURL = "scraper";
 var collections = ["scrapedData"];
 
+//Display materials in folder public on load
+app.use(express.static(__dirname + '/public'));
+
 //Database configuration with mongo
 var db = mongojs(databaseURL, collections);
 db.on("error", function(error){
