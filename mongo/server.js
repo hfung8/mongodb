@@ -22,6 +22,13 @@ db.on("error", function(error){
 	console.log("Database Error:", error);
 });
 
+var news = {
+	"Title": "title",
+	"Body": "body"
+}
+db.collections.insert(news
+	);
+
 //Main route simple (Hello World Message)
 app.get("/", function(req,res){
 	res.send("hello world");
@@ -46,27 +53,34 @@ app.get("/scraped", function(req,res){
 		}
 		else{
 			var arr = [];
+			var titleArr = [];
 			var $ = cheerio.load(html);
 			$(".story-heading").each(function(i,element){
+			var title = $(element).find('a').text();
 			var link = $(element).find('a').first().attr('href');
 			if (link != undefined){
-		arr.push(link);
+				arr.push(link);
+				titleArr.push(title);
+				console.log('test');
 			}
-		})
-		for (var i = 0; i < 10; i++){
-			console.log(arr[i]);
+			saveTitleAndLink();
+				for (var i = 0; i < 10; i++){
+				console.log(titleArr[i]);
+				// console.log(arr[i]);
+				}
+			})	
 		}
-	}
 	})
-})
-var news = {
-	"Title": "title",
-	"Body": "body"
-}
-db.collections.insert(news
-	);
+});
 
-
+function saveTitleAndLink(title,link){
+if (title && link){
+		db.collections.save({
+			title: title,
+			link: link
+		})
+	}
+};
 
 
 app.listen(3000, function(){
