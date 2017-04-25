@@ -22,30 +22,32 @@ db.on("error", function(error){
 	console.log("Database Error:", error);
 });
 
+var mycollection = db.collection('news')
 var news = {
 	"Title": "title",
 	"Body": "body"
 }
-db.collections.insert(news
-	);
+db.collections.insert(news);
 
 //Main route simple (Hello World Message)
 app.get("/", function(req,res){
 	res.send("hello world");
 });
 
-// Retrieve data from the db
+//Retrieve data from the db
 app.get("/all", function(req,res){
-	db.collections.find({}, function(err,found){
-		if(err){
-			console.log(err);
+	console.log("In all function");
+	db.getCollection('news').find({}, function(error,data){
+		if(error){
+			console.log(error);
 		}
 		else{
-			res.json(found);
+			console.log(data);
 		}
 	});
 });
-		
+
+//Retrieve scraped material from the NY TIMES website
 app.get("/scraped", function(req,res){
 	request("https://www.nytimes.com/", function(error,response,html){
 		if (error){
@@ -58,16 +60,12 @@ app.get("/scraped", function(req,res){
 			$(".story-heading").each(function(i,element){
 			var title = $(element).find('a').text();
 			var link = $(element).find('a').first().attr('href');
-			if (link != undefined){
-				arr.push(link);
-				titleArr.push(title);
-				console.log('test');
-			}
-			saveTitleAndLink();
-				for (var i = 0; i < 10; i++){
-				console.log(titleArr[i]);
-				// console.log(arr[i]);
-				}
+			// if (link != undefined){
+			// 	arr.push(link);
+			// 	titleArr.push(title);
+			// 	console.log('test');
+			// }
+			saveTitleAndLink(title,link);
 			})	
 		}
 	})
