@@ -1,0 +1,21 @@
+window.onload = function() {
+    var canvas = document.createElement('canvas');
+    var context = canvas.getContext("2d");
+    canvas.id = "canvas_id";
+    canvas.className = "canvas";                  // should be className
+    canvas.height = 400;                          // should be numbers
+    canvas.width = 800;
+    var image = new Image();
+    image.onload = function() {
+      // or set canvas size = image, here: (this = currently loaded image)
+      // canvas.width = this.width;
+      // canvas.height = this.height;
+      context.drawImage(this, 0, 0);              // draw at (0,0), size = image size
+  
+      // or, if you want to fill the canvas independent on image size:
+      // context.drawImage(this, 0, 0, canvas.width, canvas.height);
+    }
+    // set src last (recommend to use relative paths where possible)
+    image.src = "http://lorempixel.com/output/fashion-q-c-800-400-7.jpg";
+    document.body.appendChild(canvas);
+  }

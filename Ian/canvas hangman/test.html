@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <script type="text/javascript">
+        function drawGame() {
+            var canvas = document.getElementById("game");
+            var ctx = canvas.getContext("2d");
+            var width = canvas.width = window.innerWidth;
+            var height = canvas.height = window.innerHeight;
+
+            function drawVerticalLineOne() {
+                ctx.beginPath();
+                ctx.moveTo(width / 4, 0);
+                ctx.lineTo(width / 4, height);
+                ctx.stroke();
+            }
+
+            function drawVerticalLineTwo() {
+                ctx.beginPath();
+                ctx.moveTo(3 * width / 4, 0);
+                ctx.lineTo(3 * width / 4, height);
+                ctx.stroke();
+            }
+
+            function drawHorizontalLineOne() {
+                ctx.beginPath();
+                ctx.moveTo(0, height / 4);
+                ctx.lineTo(width, height / 4);
+                ctx.stroke();
+            }
+
+            function drawHorizontalLineTwo() {
+                ctx.beginPath();
+                ctx.moveTo(0, 3 * height / 4);
+                ctx.lineTo(width, 3 * height / 4);
+                ctx.stroke();
+            }
+            
+            canvas.addEventListener('click', function (event) {
+                drawVerticalLineOne();
+                drawVerticalLineTwo();
+                drawHorizontalLineOne();
+                drawHorizontalLineTwo();
+            }, false);
+
+            hideWords();
+        };
+
+        function createElementOne() {
+            var canvas = document.getElementById("game");
+            var ctx = canvas.getContext("2d");
+            var width = canvas.width = window.innerWidth;
+            var height = canvas.height = window.innerHeight;
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.lineTo(width / 4, height / 4);
+            ctx.stroke();
+            ctx.moveTo(width / 4, 0);
+            ctx.lineTo(0, height / 4);
+            ctx.stroke();
+        }
+
+        function hideWords() {
+            document.addEventListener('click', function () {
+                var h1 = document.querySelector("h1");
+                h1.style.display = "none";
+            })
+        }
+
+        function placement(event) {
+            var x = event.clientX;
+            var y = event.clientY;
+            var coords = "X coordinate :" + x + "Y coordinate :" + y;
+            document.getElementById("div").innerHTML = coords;
+            if (x < 210 && y < 190) {
+                createElementOne();
+            }
+        }
+    </script>
+
+    <body onload="drawGame();">
+        <h1>To start the game click anywhere!</h1>
+        <div id="div"></div>
+        <canvas onclick="placement(event)" id="game" width="150" height="150"></canvas>
+
+    </body>
+</head>
+
+</html>
